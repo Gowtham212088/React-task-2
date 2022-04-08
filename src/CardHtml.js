@@ -1,3 +1,4 @@
+
 import { useStore } from "./Card";  // Using context Here
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -6,29 +7,31 @@ import Badge from "@mui/material/Badge";
 import { useState } from "react";
 import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 import Button from "@mui/material/Button";
+import { useContext } from "react";
+import { Datacontext } from "./App";
 
 
-
-
-    export function MediaCard() {
+    export function MediaCard({Name, poster,tittle,price, id}) {
       
     const [remove, setRemove] = useState(true);
    const badgeSty={display:remove? "none":"block"}
   
-  const data = useStore()   // Using context Here
+   const contextData= useContext(Datacontext)
+   // Using context Here
   
   
+   console.log(contextData)
   return (
       <div className="card">
         <div className="image">
-          <img src={data.poster}  alt={data.Name}/>
+          <img src={poster}  alt={Name}/>
         </div>
         <div>
           <p className="name-summary">
             {" "}
-            <b> {data.Name} </b> <p className="amount"> {data.amount} </p>
+            <b> {Name} </b> <p className="amount"> {price} </p>
           </p>
-          <p className="name-summary"> {data.tittle} </p>
+          {/* <p className="name-summary"> {tittle} </p> */}
         </div>
   
   {/*  Button div section */}
@@ -39,6 +42,8 @@ import Button from "@mui/material/Button";
           color="secondary"
           onClick={()=>{
             setRemove(!remove)              // Button Event
+            contextData.cartData.push({name:Name,price:price,poster:poster,title:tittle, id:id})
+
           }}
           >
         {remove? "Add To Cart " :"Remove On Cart"}   {/*Inner Html if Add to cart Button */}
@@ -57,4 +62,3 @@ import Button from "@mui/material/Button";
       </div>
     );
   }
-  
